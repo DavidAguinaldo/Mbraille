@@ -33,7 +33,7 @@ const Login = () => {
   const loginUser = () => {
     signInWithEmailAndPassword(authentication, email, password)
       .then((value) => {
-        nav.replace('Home')
+        nav.replace('HomeScreen')
       })
       .catch((err) => {
         Alert.alert(err.message);

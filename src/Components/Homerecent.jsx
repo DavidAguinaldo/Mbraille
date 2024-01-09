@@ -1,15 +1,11 @@
-import { View, Text } from "react-native";
+import { View, Text, StyleSheet } from "react-native";
 import React from "react";
 import { MyColors, myColors } from "./../Utils/MyColors"
 
 const Homerecent = ({title}) => {
   return (
     <View
-      style={{
-        flexDirection: 'row',
-        justifyContent: "space-between",
-        alignItems: "center",
-      }}
+      style={ styles.RecentContainer }
     >
       <Text style = {{fontSize: 17, fontWeight: '800'}}>{title}</Text>
       <Text style = {{ fontSize: 15, color: myColors.primary }}>See All</Text>
@@ -19,3 +15,11 @@ const Homerecent = ({title}) => {
 };
 
 export default Homerecent;
+
+const styles = StyleSheet.create({
+  RecentContainer:{
+    flexDirection: 'row',
+    justifyContent: "space-between",
+    alignItems: "center",
+  }
+})

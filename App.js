@@ -5,20 +5,25 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import Splash from "./src/Screens/Splash";
 import Login from "./src/Screens/Login";
 import Signup from "./src/Screens/Signup";
-import Home from "./src/Screens/Home";
+import HomeScreen from "./src/Screens/HomeScreen";
+
+
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+
 
 const Stack = createNativeStackNavigator();
 
 const App = () => {
   return (
-    <NavigationContainer>
-      <Stack.Navigator initialRouteName="Home" screenOptions={{ headerShown: false, }}>
+    <NavigationContainer independent= {true}>
+      <Stack.Navigator initialRouteName="HomeScreen" screenOptions={{ headerShown: false, }}>
         <Stack.Screen name="Spash" component={ Splash } />
         <Stack.Screen name="Login" component={ Login }/>
         <Stack.Screen name="Signup" component={ Signup }/>
-        <Stack.Screen name= "Home" component={ Home }/>
-
+        <Stack.Screen name= "HomeScreen" component={ HomeScreen }/>
       </Stack.Navigator>
+      
+      
     </NavigationContainer>
 
   );

@@ -57,13 +57,13 @@ const styles = StyleSheet.create({
       width: "100%",
       padding: 15,
       borderRadius: 10,
-      alignItems: "center"
+      alignItems: "center",
+      marginTop: 5,
   },
   buttonOutline: {
       borderColor: myColors.primary,
       borderWidth: 2,
       backgroundColor: "white",
-      marginTop: 5,
       
   },
   buttonText:{

@@ -16,7 +16,13 @@ const Transcription = () => {
             onPress={() => {} }
             style={styles.button}
         >
-            <Text style={styles.buttonText}>Audio/Video</Text>
+            <Text style={styles.buttonText}>Audio</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+            onPress={() => {} }
+            style={styles.button}
+        >
+            <Text style={styles.buttonText}>Video</Text>
         </TouchableOpacity>
         <TouchableOpacity
             onPress={() => {}}

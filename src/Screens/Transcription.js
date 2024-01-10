@@ -7,8 +7,10 @@ import { StyleSheet,
     TouchableOpacity } from 'react-native'
 import React from 'react'
 import { myColors } from '../Utils/MyColors';
+import { useNavigation } from '@react-navigation/native';
 
 const Transcription = () => {
+  const navigation = useNavigation();
   return (
     <SafeAreaView style={ styles.transcriptionContainer }>
       <View style={styles.buttonContainer}> 

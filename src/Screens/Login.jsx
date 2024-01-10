@@ -6,6 +6,8 @@ import {
   TextInput,
   Image,
   Alert,
+  KeyboardAvoidingView,
+  Platform
 } from "react-native";
 import React, { useState } from "react";
 
@@ -41,8 +43,11 @@ const Login = () => {
   };
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: myColors.secondary }}>
-      <ScrollView style={{ flex: 1, paddingTop: 20 }}>
+    // <SafeAreaView style={{ flex: 1, backgroundColor: myColors.secondary }}>
+      <KeyboardAvoidingView
+        behavior="padding" 
+        keyboardVerticalOffset={Platform.OS === "ios" ? 100 : 0} 
+        style={{ flex: 1, paddingTop: 20 }}>
         <Image
           style={{ alignSelf: "center", height: 110, width: 110 }}
           source={require("../assets/logo.png")} /* Logo */
@@ -197,8 +202,8 @@ const Login = () => {
             </TouchableOpacity>
           </View>
         </View>
-      </ScrollView>
-    </SafeAreaView>
+      </KeyboardAvoidingView>
+    //  </SafeAreaView> 
   );
 };
 

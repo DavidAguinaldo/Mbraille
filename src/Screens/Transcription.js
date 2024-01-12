@@ -8,9 +8,46 @@ import { StyleSheet,
 import React from 'react'
 import { myColors } from '../Utils/MyColors';
 import { useNavigation } from '@react-navigation/native';
+import * as ImagePicker from 'expo-image-picker';
+
+
 
 const Transcription = () => {
   const navigation = useNavigation();
+
+  const selectDoc = async () => {
+    const formData = new FormData();
+    
+
+    try {
+      await ImagePicker.getMediaLibraryPermissionsAsync();
+      const doc = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Videos
+      });
+      const file = doc.assets[0]
+      formData.append('file', file)
+      
+      const response = await fetch('http://localhost:8000/transcribe', {
+        method: 'POST',
+        body: formData
+      });
+
+      const data = await response.json();
+
+      console.log(data);
+
+      console.log(doc.assets[0])
+
+
+
+    } catch (error) {
+      if({})
+        console.log("User Cancelled the upload", error);
+      else
+        console.log(error)
+    }
+  }
+
   return (
     <SafeAreaView style={ styles.transcriptionContainer }>
       <View style={styles.buttonContainer}> 
@@ -21,7 +58,7 @@ const Transcription = () => {
             <Text style={styles.buttonText}>Audio</Text>
         </TouchableOpacity>
         <TouchableOpacity
-            onPress={() => {} }
+            onPress={selectDoc}
             style={styles.button}
         >
             <Text style={styles.buttonText}>Video</Text>

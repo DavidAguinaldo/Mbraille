@@ -4,11 +4,13 @@ import { StyleSheet,
     StatusBar, 
     Platform, 
     SafeAreaView,
-    TouchableOpacity } from 'react-native'
+    TouchableOpacity, 
+    Alert } from 'react-native'
 import React from 'react'
 import { myColors } from '../Utils/MyColors';
 import { useNavigation } from '@react-navigation/native';
 import * as ImagePicker from 'expo-image-picker';
+import axios from 'axios';
 
 
 
@@ -17,27 +19,35 @@ const Transcription = () => {
 
   const selectDoc = async () => {
     const formData = new FormData();
-    
-
     try {
       await ImagePicker.getMediaLibraryPermissionsAsync();
-      const doc = await ImagePicker.launchImageLibraryAsync({
+      const video = await ImagePicker.launchImageLibraryAsync({
         mediaTypes: ImagePicker.MediaTypeOptions.Videos
       });
-      const file = doc.assets[0]
-      formData.append('file', file)
-      
-      const response = await fetch('http://localhost:8000/transcribe', {
-        method: 'POST',
-        body: formData
+      const videouri = video.assets[0].uri
+
+      formData.append('video', {
+        uri: video,
+        type: "video",
+        name: "VideoUp"
       });
+
+      const config = {
+        headers: {
+          "Content-Type" : "multipart/form-data",
+        },
+        tranformRequest: () => {
+          return formData;
+        }
+      };
+      
+      const response = await axios.post("http://localhost:8000/transcribe", formData, config);
 
       const data = await response.json();
 
       console.log(data);
 
-      console.log(doc.assets[0])
-
+      console.log(doc.assets[0]);
 
 
     } catch (error) {
@@ -49,7 +59,7 @@ const Transcription = () => {
   }
 
   return (
-    <SafeAreaView style={ styles.transcriptionContainer }>
+    <SafeAreaView style={ styles.transcriptionContainer}>
       <View style={styles.buttonContainer}> 
         <TouchableOpacity
             onPress={() => {} }

@@ -6,6 +6,7 @@ import Home from './Home';
 import Transcription from './Transcription';
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { myColors } from '../Utils/MyColors';
+import About from './About';
 
 
 const botNav = createBottomTabNavigator();
@@ -31,6 +32,17 @@ const HomeScreen = () => {
             tabBarIcon: ({ color }) => (
               <Ionicons
                   name="document-attach"
+                  size= {20}
+                  color={color}
+              />
+            )
+          }}
+        />
+         <botNav.Screen name= "About" component={ About } 
+          options={{
+            tabBarIcon: ({ color }) => (
+              <Ionicons
+                  name="about-us"
                   size= {20}
                   color={color}
               />

@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, Image, StyleSheet, ScrollView } from 'react-native';
-
+//added about draft
 const About = () => {
   return (
     <ScrollView contentContainerStyle={styles.container}>

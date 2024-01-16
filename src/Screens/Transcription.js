@@ -4,24 +4,100 @@ import { StyleSheet,
     StatusBar, 
     Platform, 
     SafeAreaView,
-    TouchableOpacity } from 'react-native'
+    TouchableOpacity, 
+    Alert } from 'react-native'
 import React from 'react'
 import { myColors } from '../Utils/MyColors';
 import { useNavigation } from '@react-navigation/native';
+import * as ImagePicker from 'expo-image-picker';
+import axios from 'axios';
+// import { g } from 'expo-image-picker'
+
+
 
 const Transcription = () => {
   const navigation = useNavigation();
+
+  const uploadFile = async (file, fileType) => {
+    const formData = new FormData();
+    const apiURL = "http://192.168.0.2:8000/transcribe";
+
+    formData.append('file', {
+      uri: file.uri,
+      type: fileType === 'image' ? 'image/jpeg' : 'video/mp4',
+      name: fileType === 'image' ? 'image.jpg' : 'video.mp4',
+    });
+
+    try {
+      const config = {
+        headers: {
+          "Content-Type" : "multipart/form-data",
+        },
+      };
+
+      const response = await axios.post(apiURL, formData, config);
+
+      console.log("Response:", response);
+
+      if (response.status === 200) {
+        console.log("Success:", response.data);
+      } else {
+        console.error("Error Status:", response.status);
+        console.error("Error Data:", response.data);
+      }
+
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const selectImage = async () => {
+    try {
+      await ImagePicker.getMediaLibraryPermissionsAsync();
+      const image = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      });
+
+      if (!image.cancelled) {
+        await uploadFile(image, 'image');
+      } else {
+        console.log("User Cancelled the upload");
+      }
+
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const selectVid = async () => {
+    try {
+      await ImagePicker.getMediaLibraryPermissionsAsync();
+      const video = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Videos,
+      });
+
+      if (!video.cancelled) {
+        await uploadFile(video, 'video');
+      } else {
+        console.log("User Cancelled the upload");
+      }
+
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
-    <SafeAreaView style={ styles.transcriptionContainer }>
+    <SafeAreaView style={ styles.transcriptionContainer}>
       <View style={styles.buttonContainer}> 
         <TouchableOpacity
-            onPress={() => {} }
+            onPress={selectImage}
             style={styles.button}
         >
             <Text style={styles.buttonText}>Audio</Text>
         </TouchableOpacity>
         <TouchableOpacity
-            onPress={() => {} }
+            onPress={selectVid}
             style={styles.button}
         >
             <Text style={styles.buttonText}>Video</Text>

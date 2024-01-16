@@ -11,48 +11,28 @@ import { myColors } from '../Utils/MyColors';
 import { useNavigation } from '@react-navigation/native';
 import * as ImagePicker from 'expo-image-picker';
 import axios from 'axios';
+// import { g } from 'expo-image-picker'
 
 
 
 const Transcription = () => {
   const navigation = useNavigation();
 
-  const selectImage = async () => {
-    try {
-      await ImagePicker.getMediaLibraryPermissionsAsync();
-      const image = await ImagePicker.launchImageLibraryAsync({
-        mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      });
-      console.log(image.assets);
-    } catch (error) {
-      if (error.message.includes('User cancelled the picker')) {
-        console.log("User Cancelled the upload");
-      } else {
-        console.error(error);
-      }
-    }
-  };
-
-  const selectVid = async () => {
+  const uploadFile = async (file, fileType) => {
     const formData = new FormData();
-    const apiURL = "http://192.168.0.2:8000/transcribe"; //API dapat to. Hoping I could fix this part and after
+    const apiURL = "http://192.168.0.2:8000/transcribe";
+
+    formData.append('file', {
+      uri: file.uri,
+      type: fileType === 'image' ? 'image/jpeg' : 'video/mp4',
+      name: fileType === 'image' ? 'image.jpg' : 'video.mp4',
+    });
 
     try {
-      await ImagePicker.getMediaLibraryPermissionsAsync();
-      const video = await ImagePicker.launchImageLibraryAsync({
-        mediaTypes: ImagePicker.MediaTypeOptions.Videos,
-      });
-      const videodata = video.assets[0];
-
-      formData.append('file', videodata);
-      
-      console.log(videodata);
-
       const config = {
         headers: {
           "Content-Type" : "multipart/form-data",
         },
-        transformRequest: () => formData,
       };
 
       const response = await axios.post(apiURL, formData, config);
@@ -67,11 +47,43 @@ const Transcription = () => {
       }
 
     } catch (error) {
-      if (error.message.includes('User cancelled the picker')) {
-        console.log("User Cancelled the upload");
+      console.error(error);
+    }
+  };
+
+  const selectImage = async () => {
+    try {
+      await ImagePicker.getMediaLibraryPermissionsAsync();
+      const image = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      });
+
+      if (!image.cancelled) {
+        await uploadFile(image, 'image');
       } else {
-        console.error(error);
+        console.log("User Cancelled the upload");
       }
+
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const selectVid = async () => {
+    try {
+      await ImagePicker.getMediaLibraryPermissionsAsync();
+      const video = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Videos,
+      });
+
+      if (!video.cancelled) {
+        await uploadFile(video, 'video');
+      } else {
+        console.log("User Cancelled the upload");
+      }
+
+    } catch (error) {
+      console.error(error);
     }
   };
 

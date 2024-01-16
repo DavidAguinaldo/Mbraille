@@ -17,58 +17,75 @@ import axios from 'axios';
 const Transcription = () => {
   const navigation = useNavigation();
 
-  const selectDoc = async () => {
+  const selectImage = async () => {
+    try {
+      await ImagePicker.getMediaLibraryPermissionsAsync();
+      const image = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      });
+      console.log(image.assets);
+    } catch (error) {
+      if (error.message.includes('User cancelled the picker')) {
+        console.log("User Cancelled the upload");
+      } else {
+        console.error(error);
+      }
+    }
+  };
+
+  const selectVid = async () => {
     const formData = new FormData();
+    const apiURL = "http://192.168.0.2:8000/transcribe"; //API dapat to. Hoping I could fix this part and after
+
     try {
       await ImagePicker.getMediaLibraryPermissionsAsync();
       const video = await ImagePicker.launchImageLibraryAsync({
-        mediaTypes: ImagePicker.MediaTypeOptions.Videos
+        mediaTypes: ImagePicker.MediaTypeOptions.Videos,
       });
-      const videouri = video.assets[0].uri
+      const videodata = video.assets[0];
 
-      formData.append('video', {
-        uri: video,
-        type: "video",
-        name: "VideoUp"
-      });
+      formData.append('file', videodata);
+      
+      console.log(videodata);
 
       const config = {
         headers: {
           "Content-Type" : "multipart/form-data",
         },
-        tranformRequest: () => {
-          return formData;
-        }
+        transformRequest: () => formData,
       };
-      
-      const response = await axios.post("http://localhost:8000/transcribe", formData, config);
 
-      const data = await response.json();
+      const response = await axios.post(apiURL, formData, config);
 
-      console.log(data);
+      console.log("Response:", response);
 
-      console.log(doc.assets[0]);
-
+      if (response.status === 200) {
+        console.log("Success:", response.data);
+      } else {
+        console.error("Error Status:", response.status);
+        console.error("Error Data:", response.data);
+      }
 
     } catch (error) {
-      if({})
-        console.log("User Cancelled the upload", error);
-      else
-        console.log(error)
+      if (error.message.includes('User cancelled the picker')) {
+        console.log("User Cancelled the upload");
+      } else {
+        console.error(error);
+      }
     }
-  }
+  };
 
   return (
     <SafeAreaView style={ styles.transcriptionContainer}>
       <View style={styles.buttonContainer}> 
         <TouchableOpacity
-            onPress={() => {} }
+            onPress={selectImage}
             style={styles.button}
         >
             <Text style={styles.buttonText}>Audio</Text>
         </TouchableOpacity>
         <TouchableOpacity
-            onPress={selectDoc}
+            onPress={selectVid}
             style={styles.button}
         >
             <Text style={styles.buttonText}>Video</Text>

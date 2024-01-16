@@ -20,7 +20,7 @@ const Transcription = () => {
 
   const uploadFile = async (file, fileType) => {
     const formData = new FormData();
-    const apiURL = "http://192.168.0.2:8000/transcribe";
+    const apiURL = 'http://192.168.0.2:8000/transcribe';
 
     formData.append('file', {
       uri: file.uri,
@@ -29,15 +29,25 @@ const Transcription = () => {
     });
 
     try {
-      const config = {
+      // const config = {
+      //   headers: {
+      //     "Content-Type" : "multipart/form-data",
+      //   },
+      // };
+
+      // const response = await axios.post(apiURL, formData, config);
+      const response = await fetch(apiURL, {
+        method: 'POST',
         headers: {
-          "Content-Type" : "multipart/form-data",
+          'Content-Type': 'multipart/form-data',
         },
-      };
+        body: formData,
+      });
+  
+      // Assuming that the server returns JSON, you can parse the response
+      const responseData = await response.json();
 
-      const response = await axios.post(apiURL, formData, config);
-
-      console.log("Response:", response);
+      console.log("Response:", responseData);
 
       if (response.status === 200) {
         console.log("Success:", response.data);
@@ -77,7 +87,8 @@ const Transcription = () => {
       });
 
       if (!video.cancelled) {
-        await uploadFile(video, 'video');
+        console.log('VideoINFO:', video.assets[0])
+        await uploadFile(video.assets[0], 'video');
       } else {
         console.log("User Cancelled the upload");
       }

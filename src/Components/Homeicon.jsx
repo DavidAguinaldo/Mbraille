@@ -1,12 +1,22 @@
-import { View, Text, Image } from 'react-native'
+import { View, Text, Image, KeyboardAvoidingView } from 'react-native'
 import React from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
+import LottieView from 'lottie-react-native';
 
 const Homeicon = () => {
   return (
-    <View style = {{ justifyContent: 'center', alignItems: 'center'}}>
-      <Image style = {{ width: 50, height:50,  }} source = {require('../assets/logo.png')} />
+
+    <KeyboardAvoidingView
+        behavior="padding" 
+        keyboardVerticalOffset={Platform.OS === "ios" ? 100 : 0} 
+        style={{  }}>
+          
+
+    <View style = {{ alignItems: "center", backgroundColor: "#2f4f4f", borderBottomRightRadius: 25, borderBottomLeftRadius: 25}}>
+    <LottieView style = {{ width: 200, height: 175 }} source={require('../lottie/Home.json')} autoPlay loop /> 
     </View>
+
+    </KeyboardAvoidingView>
   );
 };
 

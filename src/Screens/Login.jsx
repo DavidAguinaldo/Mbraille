@@ -1,24 +1,12 @@
-import {
-  View,
-  Text,
-  ScrollView,
-  TouchableOpacity,
-  TextInput,
-  Image,
-  Alert,
-  KeyboardAvoidingView,
-  Platform
-} from "react-native";
+import {View,Text,ScrollView,TouchableOpacity,TextInput,Image,Alert,KeyboardAvoidingView,Platform } from "react-native";
 import React, { useState } from "react";
-
 import { SafeAreaView } from "react-native-safe-area-context";
 import { myColors } from "../Utils/MyColors";
-
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
-
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { authentication } from "../../FirebaseConfig";
+import LottieView from 'lottie-react-native';
 
 const Login = () => {
   const nav = useNavigation();
@@ -42,20 +30,24 @@ const Login = () => {
       });
   };
 
+
+  
   return (
-    // <SafeAreaView style={{ flex: 1, backgroundColor: myColors.secondary }}>
+      <ScrollView>
       <KeyboardAvoidingView
         behavior="padding" 
         keyboardVerticalOffset={Platform.OS === "ios" ? 100 : 0} 
-        style={{ flex: 1, paddingTop: 20 }}>
-        <Image
-          style={{ alignSelf: "center", height: 110, width: 110 }}
-          source={require("../assets/logo.png")} /* Logo */
-        />
+        style={{ flex: 1, }}>
 
-        <View style={{ paddingHorizontal: 20, marginTop: 50 }}>
+
+
+        <View style = {{ alignItems: "center", backgroundColor: "#2f4f4f", borderBottomRightRadius: 25, borderBottomLeftRadius: 25 }}>
+        <LottieView style = {{ width: 200, height: 200 }} source={require('../lottie/SignIn.json')} autoPlay loop /> 
+        </View>
+
+        <View style={{ paddingHorizontal: 20, marginTop: 25 }}>
           <Text
-            style={{ color: myColors.tatlo, fontSize: 24, fontWeight: "500" }}
+            style={{ color: myColors.tatlo, fontSize: 24, fontWeight: "500", }}
           >
             Log In
           </Text>
@@ -64,7 +56,7 @@ const Login = () => {
               fontSize: 16,
               fontWeight: "400",
               color: "grey",
-              marginTop: 10,
+              marginTop: 5,
             }}
           >
             {" "}
@@ -160,7 +152,7 @@ const Login = () => {
               backgroundColor: myColors.primary,
               marginTop: 30,
               height: 70,
-              borderRadius: 20,
+              borderRadius: 50 ,
               alignItems: "center",
               justifyContent: "center",
             }}
@@ -203,7 +195,8 @@ const Login = () => {
           </View>
         </View>
       </KeyboardAvoidingView>
-    //  </SafeAreaView> 
+      </ScrollView>
+
   );
 };
 

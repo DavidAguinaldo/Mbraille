@@ -1,5 +1,5 @@
 export const myColors = {
-    primary: '#1073FF',
+    primary: '#2f4f4f',
     secondary: 'white',
     tatlo:'black'
 }

@@ -1,15 +1,15 @@
-import {View,Text,ScrollView,Image,TextInput,TouchableOpacity, Alert, } from "react-native";
-
+import {View,Text,ScrollView,Image,TextInput,TouchableOpacity, Alert, KeyboardAvoidingView, Platform } from "react-native";
 import React, { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { myColors } from "../Utils/MyColors";
 import { StatusBar } from "expo-status-bar";
-
 import { Ionicons } from "@expo/vector-icons"; /* link for expo vector icons lang to*/
 import { useNavigation } from "@react-navigation/native";
 import { authentication, database } from "./../../FirebaseConfig";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { setDoc, doc } from "firebase/firestore";
+import LottieView from 'lottie-react-native';
+
 
 import uuid from 'react-native-uuid';
 
@@ -51,18 +51,24 @@ const Signup = () => {
       });
   };
 
-  return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: myColors.secondary }}>
-      <StatusBar />
-      <ScrollView style={{ flex: 1, paddingTop: 20 }}>
-        <Image
-          style={{ alignSelf: "center", height: 110, width: 110 }}
-          source={require("../assets/logo.png")} /* Logo */
-        />
 
-        <View style={{ paddingHorizontal: 20, marginTop: 50 }}>
+
+  return (
+
+        <ScrollView>
+
+        <KeyboardAvoidingView
+        behavior="padding" 
+        keyboardVerticalOffset={Platform.OS === "ios" ? 100 : 0} 
+        style={{ flex: 1 }}>
+
+        <View style = {{ alignItems: "center", alignContent: "center ", height: 200, backgroundColor: "#2f4f4f", borderBottomRightRadius: 15, borderBottomLeftRadius: 15 }}>
+        <LottieView style = {{ width: 200, height: 200 }} source={require('../lottie/SignUp.json')} autoPlay loop /> 
+        </View>
+
+        <View style={{ paddingHorizontal: 20, marginTop: 10 }}>
           <Text
-            style={{ color: myColors.tatlo, fontSize: 24, fontWeight: "500" }}
+            style={{ color: myColors.tatlo, fontSize: 24, fontWeight: "500", paddingTop: 5 }}
           >
             Sign Up
           </Text>
@@ -198,7 +204,7 @@ const Signup = () => {
               backgroundColor: myColors.primary,
               marginTop: 30,
               height: 70,
-              borderRadius: 20,
+              borderRadius: 50,
               alignItems: "center",
               justifyContent: "center",
             }}
@@ -237,11 +243,16 @@ const Signup = () => {
               >
                 Sign In
               </Text>
+
+              
             </TouchableOpacity>
           </View>
         </View>
-      </ScrollView>
-    </SafeAreaView>
+        </KeyboardAvoidingView>
+
+        </ScrollView>
+
+
   );
 };
 

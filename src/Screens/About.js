@@ -10,7 +10,7 @@ const About = () => {
 
       <View style={styles.content}>
         <Text style={styles.description}>
-          Welcome to the MBraille app, where we empower users to convert multimedia
+          Welcome to the MBraille app, where we empower users to convert multiple modes of input
           into Braille seamlessly. Our mission is to enhance accessibility for individuals
           with visual impairments by providing a user-friendly and efficient transcription tool.
         </Text>
